@@ -1,0 +1,39 @@
+@import "common/stylesheet/index";
+
+.array_2d {
+  flex-shrink: 0;
+  display: table;
+  border-collapse: collapse;
+
+  .row {
+    display: table-row;
+    height: 28px;
+
+    .col {
+      display: table-cell;
+      text-align: center;
+      min-width: 28px;
+      background-color: var(--surface-soft, #f0f2f8);
+      border: 1px solid var(--border, #dce0eb);
+      padding: 0 4px;
+
+      .value {
+        font-size: .9375rem;
+      }
+
+      &.selected {
+        background-color: color-mix(in srgb, var(--primary, #5550d6) 35%, var(--surface, #fff));
+      }
+
+      &.patched {
+        background-color: color-mix(in srgb, var(--changed, #b65d14) 35%, var(--surface, #fff));
+      }
+
+      &.index {
+        background: none;
+        border: none;
+        color: var(--text-secondary, #5e657d);
+      }
+    }
+  }
+}

@@ -1,0 +1,29 @@
+﻿{
+    "name":  "data-structure-study",
+    "version":  "0.1.0",
+    "private":  true,
+    "type":  "module",
+    "license":  "MIT",
+    "scripts":  {
+                    "dev":  "node study-server/dev.mjs",
+                    "start":  "node study-server/server.mjs",
+                    "build":  "vite build",
+                    "test":  "node --test --test-concurrency=1 tests/*.test.mjs",
+                    "doctor":  "node study-server/doctor.mjs",
+                    "test:browser":  "node tests/browser-regression.mjs",
+                    "coverage":  "node scripts/coverage.mjs"
+                },
+    "dependencies":  {
+                         "ace-builds":  "^1.45.2",
+                         "lucide-react":  "^1.73.0",
+                         "react":  "^19.3.1",
+                         "react-ace":  "^15.0.0",
+                         "react-dom":  "^19.3.1"
+                     },
+    "devDependencies":  {
+                            "@playwright/test":  "^1.65.1",
+                            "@vitejs/plugin-react":  "^6.3.0",
+                            "sass":  "^1.108.2",
+                            "vite":  "^8.3.8"
+                        }
+}

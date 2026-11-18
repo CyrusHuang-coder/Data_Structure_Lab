@@ -1,0 +1,13 @@
+node_modules/
+user-data/
+.runtime/
+dist/
+*.log
+.publish/
+artifacts/
+implement-stage/
+.env
+.env.*
+*.sqlite*
+*.pem
+*.key

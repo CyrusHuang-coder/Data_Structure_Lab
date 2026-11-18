@@ -1,0 +1,22 @@
+name: Build and model tests
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  frontend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: upstream/algorithm-visualizer
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: upstream/algorithm-visualizer/package-lock.json
+      - run: npm ci
+      - run: npm run build
+      - run: node --test tests/appearance-colors.test.mjs tests/code-tools.test.mjs tests/adt-reference.test.mjs tests/test-input.test.mjs tests/workbench-layout.test.mjs tests/edge-highlights.test.mjs

@@ -1,0 +1,102 @@
+@import "common/stylesheet/index";
+
+.graph {
+  flex: 1;
+  align-self: stretch;
+
+  .node {
+    .circle {
+      fill: var(--surface, #fff);
+      stroke: var(--edge, #737b91);
+      stroke-width: 1;
+    }
+
+    .id {
+      fill: var(--edge, #737b91);
+      alignment-baseline: central;
+      text-anchor: middle;
+    }
+
+    .weight {
+      fill: var(--edge, #737b91);
+      font-weight: bold;
+      alignment-baseline: central;
+      text-anchor: left;
+    }
+
+    &.selected {
+      .id { fill: var(--on-primary, #fff); }
+      .circle {
+        fill: var(--primary, #5550d6);
+        stroke: var(--primary, #5550d6);
+      }
+    }
+
+    &.visited {
+      .id { fill: #151a25; }
+      .circle {
+        fill: var(--changed, #b65d14);
+        stroke: var(--changed, #b65d14);
+      }
+    }
+  }
+
+  .edge {
+    .line {
+      stroke: var(--edge, #737b91);
+      stroke-width: 2;
+
+      &.directed {
+        marker-end: url(#markerArrow);
+      }
+    }
+
+    .weight {
+      fill: var(--edge, #737b91);
+      alignment-baseline: baseline;
+      text-anchor: middle;
+    }
+
+    &.selected {
+      .line {
+        stroke-width: 4;
+        stroke: var(--primary, #5550d6);
+
+        &.directed {
+          marker-end: url(#markerArrowSelected);
+        }
+      }
+
+      .weight {
+        fill: var(--primary, #5550d6);
+      }
+    }
+
+    &.visited {
+      .line {
+        stroke-width: 4;
+        stroke: var(--changed, #b65d14);
+
+        &.directed {
+          marker-end: url(#markerArrowVisited);
+        }
+      }
+
+      .weight {
+        fill: var(--changed, #b65d14);
+      }
+    }
+  }
+
+  .arrow {
+    fill: var(--edge, #737b91);
+
+    &.selected {
+      fill: var(--primary, #5550d6);
+    }
+
+    &.visited {
+      fill: var(--changed, #b65d14);
+    }
+  }
+}
