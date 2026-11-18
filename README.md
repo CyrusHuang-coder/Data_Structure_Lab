@@ -4,6 +4,8 @@
 
 ## 获取代码
 
+在线使用：[data-structure-lab.vercel.app](https://data-structure-lab.vercel.app)。可创建账号并独立保存学习数据。首次访问需要唤醒执行环境，额度与维护方式见 [线上部署说明](docs/CLOUD_DEPLOYMENT.md)。
+
 ```powershell
 git clone https://github.com/CyrusHuang-coder/Data_Structure_Lab.git
 cd Data_Structure_Lab

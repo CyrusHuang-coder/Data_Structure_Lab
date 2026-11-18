@@ -11,3 +11,6 @@ implement-stage/
 *.sqlite*
 *.pem
 *.key
+
+.vercel
+.env*

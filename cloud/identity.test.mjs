@@ -1,0 +1,4 @@
+import test from 'node:test';import assert from 'node:assert/strict';
+import {credentials,passwordHash,passwordMatches,digest} from './identity.mjs';
+test('credentials normalize names and reject unsafe lengths',()=>{assert.equal(credentials({username:'Student_01',password:'long-password'}).name,'student_01');assert.throws(()=>credentials({username:'../x',password:'long-password'}));assert.throws(()=>credentials({username:'student',password:'short'}));});
+test('salted password hashes verify without storing plaintext',async()=>{const a=await passwordHash('correct-password'),b=await passwordHash('correct-password');assert.notEqual(a.hash,b.hash);assert.equal(await passwordMatches('correct-password',a),true);assert.equal(await passwordMatches('wrong-password',a),false);assert.equal(digest('token').length,64);});

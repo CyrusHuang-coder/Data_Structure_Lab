@@ -47,8 +47,9 @@ async function schedule(job,task){
 export const server=http.createServer(async(req,res)=>{
   const url=new URL(req.url,'http://127.0.0.1');
   try {
+    if(process.env.DS_GATEWAY_SECRET&&req.headers['x-ds-gateway']!==process.env.DS_GATEWAY_SECRET)return json(res,403,{error:'请从平台登录后访问'});
     const localPort=req.socket.localPort;
-    if(![`127.0.0.1:${localPort}`,`localhost:${localPort}`,'127.0.0.1:5173','localhost:5173'].includes(req.headers.host))return json(res,403,{error:'仅允许本机地址访问'});
+    if(![`127.0.0.1:${localPort}`,`localhost:${localPort}`,'127.0.0.1:5173','localhost:5173',process.env.DS_ALLOWED_HOST].filter(Boolean).includes(req.headers.host))return json(res,403,{error:'访问地址不合法'});
     if(req.method==='GET'&&url.pathname==='/api/session'){res.setHeader('Set-Cookie',`ds_session=${token}; HttpOnly; SameSite=Strict; Path=/`);return json(res,200,{ok:true});}
     if(url.pathname.startsWith('/api/')&&!authorized(req))return json(res,403,{error:'请刷新页面以建立本机会话'});
     if(req.method==='GET'&&url.pathname==='/api/catalog'){
@@ -71,7 +72,7 @@ export const server=http.createServer(async(req,res)=>{
       const explicit=store.list('mistake'),ids=new Set(explicit.map(m=>m.id));
       return json(res,200,[...explicit,...store.list('progress').filter(p=>p.recentFailures&&!ids.has(p.id)).map(p=>({id:p.id,algorithmId:p.id,mastered:false,reason:'最近一次提交未通过',submissionId:p.lastSubmissionId,updated:p.updated}))]);
     }
-    if(req.method==='GET'&&url.pathname==='/api/health'){const checks=await Promise.all([command(compiler,['--version']),command(debuggerPath,['--version'])]);return json(res,200,{compiler:checks[0].stdout.split('\n')[0],debugger:checks[1].stdout.split('\n')[0],runner:'native',isolated:false,busy});}
+    if(req.method==='GET'&&url.pathname==='/api/health'){const checks=await Promise.all([command(compiler,['--version']),command(debuggerPath,['--version'])]);return json(res,200,{compiler:checks[0].stdout.split('\n')[0],debugger:checks[1].stdout.split('\n')[0],runner:process.env.DS_SANDBOX?'sandbox':'native',isolated:!!process.env.DS_SANDBOX,busy});}
     if(req.method==='POST'&&url.pathname==='/api/runs'){
       const b=await body(req);if(typeof b.source!=='string'||b.source.length>100000)throw new Error('代码长度不合法');
       const a=b.free?null:findAlgorithm(b.algorithmId), input=b.input||{},built=a?buildHarness(a,input,{implementation:b.implementation}):{profile:{kind:'free',watches:[]},harness:''};
@@ -136,4 +137,4 @@ export const server=http.createServer(async(req,res)=>{
 });
 
 server.on('close',()=>store.close());
-if(process.argv[1]===fileURLToPath(import.meta.url))server.listen(process.env.DS_PORT===undefined?4174:Number(process.env.DS_PORT),'127.0.0.1',()=>console.log('数据结构复习平台：http://127.0.0.1:'+server.address().port));
+if(process.argv[1]===fileURLToPath(import.meta.url))server.listen(process.env.DS_PORT===undefined?4174:Number(process.env.DS_PORT),process.env.DS_BIND||'127.0.0.1',()=>console.log('数据结构复习平台：http://127.0.0.1:'+server.address().port));

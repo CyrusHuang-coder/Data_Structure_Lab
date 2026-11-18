@@ -1,0 +1,20 @@
+{
+  "name": "data-structure-lab-cloud",
+  "version": "0.2.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": "24.x"
+  },
+  "scripts": {
+    "build": "node cloud/build.mjs",
+    "test": "node --test cloud/*.test.mjs"
+  },
+  "dependencies": {
+    "@vercel/blob": "2.9.0",
+    "@vercel/sandbox": "4.0.0"
+  },
+  "overrides": {
+    "zod": "^4.6.7"
+  }
+}

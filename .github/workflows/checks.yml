@@ -19,4 +19,6 @@ jobs:
           cache-dependency-path: upstream/algorithm-visualizer/package-lock.json
       - run: npm ci
       - run: npm run build
+      - run: npm ci && npm test
+        working-directory: .
       - run: node --test tests/appearance-colors.test.mjs tests/code-tools.test.mjs tests/adt-reference.test.mjs tests/test-input.test.mjs tests/workbench-layout.test.mjs tests/edge-highlights.test.mjs
